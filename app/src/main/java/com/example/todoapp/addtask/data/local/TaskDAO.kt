@@ -1,4 +1,4 @@
-package com.example.todoapp.addtask.data
+package com.example.todoapp.addtask.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -12,5 +12,5 @@ interface TaskDAO {
     fun getTasks(): Flow<List<TaskEntity>>
 
     @Insert
-    suspend fun addTask(item:TaskEntity)
+    suspend fun addTask(item: TaskEntity)
 }

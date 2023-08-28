@@ -2,8 +2,8 @@ package com.example.todoapp.addtask.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.todoapp.addtask.data.TaskDAO
-import com.example.todoapp.addtask.data.TaskDatabase
+import com.example.todoapp.addtask.data.local.TaskDAO
+import com.example.todoapp.addtask.data.local.TaskDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideTaskDao(taskDatabase:TaskDatabase):TaskDAO{
+    fun provideTaskDao(taskDatabase: TaskDatabase): TaskDAO {
         return taskDatabase.taskDao()
     }
 }

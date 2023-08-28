@@ -1,4 +1,4 @@
-package com.example.todoapp.addtask.data
+package com.example.todoapp.addtask.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
