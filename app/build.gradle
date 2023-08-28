@@ -77,4 +77,9 @@ dependencies {
     //LiveData
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
     implementation "androidx.compose.runtime:runtime-livedata:1.5.0"
+
+    //Room
+    implementation "androidx.room:room-runtime:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
+    implementation "androidx.room:room-ktx:2.5.2"
 }
