@@ -2,6 +2,7 @@ package com.example.todoapp.addtask.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -95,11 +97,13 @@ fun AddTaskDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded: (String) ->
             confirmButton = {
                 TextButton(onClick = { onTaskAdded(myTasks) }) {
                     Text("Añadir tarea")
+                    myTasks=""
                 }
             },
             dismissButton = {
                 TextButton(onClick = { onDismiss() }) {
                     Text("Cancelar")
+                    myTasks=""
                 }
             }
         )
@@ -154,7 +158,12 @@ fun ItemTask(task: TaskModel, tasksViewModel: TasksViewModel) {
     Card(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .pointerInput(Unit){
+                detectTapGestures(onLongPress = {
+                    tasksViewModel.onItemRemove(task)
+                })
+            },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
