@@ -15,12 +15,19 @@ class TaskRepository @Inject constructor(private val taskDao: TaskDAO) {
         taskDao.getTasks().map { items -> items.map { TaskModel(it.id, it.task, it.selected) } }
 
     suspend fun add(task: TaskModel) {
-        taskDao.addTask(TaskEntity(task.id, task.task, task.selected))
+        taskDao.addTask(task.toData())
     }
 
     suspend fun update(task: TaskModel) {
-        taskDao.updateTask(TaskEntity(task.id, task.task, task.selected))
+        taskDao.updateTask(task.toData())
     }
 
+    suspend fun delete(task: TaskModel) {
+        taskDao.deletedTask(task.toData())
+    }
 
+}
+
+fun TaskModel.toData():TaskEntity{
+    return TaskEntity(this.id, this.task, this.selected)
 }

@@ -20,3 +20,9 @@ class UpdateTaskUSeCase @Inject constructor(private val taskRepository: TaskRepo
         taskRepository.update(task)
     }
 }
+
+class DeleteTaskUseCase @Inject constructor(private val taskRepository: TaskRepository){
+    suspend operator fun invoke(task:TaskModel){
+        taskRepository.delete(task)
+    }
+}

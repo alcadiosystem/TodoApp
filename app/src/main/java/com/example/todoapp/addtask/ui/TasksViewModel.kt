@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.addtask.domain.AddTaskUseCase
+import com.example.todoapp.addtask.domain.DeleteTaskUseCase
 import com.example.todoapp.addtask.domain.GetTasksUseCase
 import com.example.todoapp.addtask.domain.UpdateTaskUSeCase
 import com.example.todoapp.addtask.ui.TasksUiState.*
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class TasksViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
     private val updateTaskUSeCase: UpdateTaskUSeCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
     getTasksUseCase: GetTasksUseCase
 ): ViewModel() {
 
@@ -49,11 +51,6 @@ class TasksViewModel @Inject constructor(
     }
 
     fun onCheckBoxSelected(task: TaskModel) {
-        //Actualizar check
-//        val index = _tasks.indexOf(task)
-//        _tasks[index] = _tasks[index].let {
-//            it.copy(selected = !it.selected)
-//        }
 
         viewModelScope.launch {
             updateTaskUSeCase(task.copy(selected = !task.selected))
@@ -62,8 +59,8 @@ class TasksViewModel @Inject constructor(
     }
 
     fun onItemRemove(taskModel: TaskModel) {
-        //Borrar item
-//        val task = _tasks.find { it.id == taskModel.id }
-//        _tasks.remove(task)
+        viewModelScope.launch{
+            deleteTaskUseCase(taskModel)
+        }
     }
 }
