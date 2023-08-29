@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.addtask.domain.AddTaskUseCase
 import com.example.todoapp.addtask.domain.GetTasksUseCase
+import com.example.todoapp.addtask.domain.UpdateTaskUSeCase
 import com.example.todoapp.addtask.ui.TasksUiState.*
 import com.example.todoapp.addtask.ui.model.TaskModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TasksViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
+    private val updateTaskUSeCase: UpdateTaskUSeCase,
     getTasksUseCase: GetTasksUseCase
 ): ViewModel() {
 
@@ -30,9 +32,6 @@ class TasksViewModel @Inject constructor(
 
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
-
-//    private val _tasks = mutableStateListOf<TaskModel>()
-//    val tasks: List<TaskModel> = _tasks
 
     fun onDialogClose() {
         _showDialog.value = false
@@ -55,6 +54,11 @@ class TasksViewModel @Inject constructor(
 //        _tasks[index] = _tasks[index].let {
 //            it.copy(selected = !it.selected)
 //        }
+
+        viewModelScope.launch {
+            updateTaskUSeCase(task.copy(selected = !task.selected))
+        }
+
     }
 
     fun onItemRemove(taskModel: TaskModel) {
