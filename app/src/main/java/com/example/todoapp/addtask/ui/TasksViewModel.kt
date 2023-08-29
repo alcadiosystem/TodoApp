@@ -1,7 +1,6 @@
 package com.example.todoapp.addtask.ui
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +9,7 @@ import com.example.todoapp.addtask.domain.AddTaskUseCase
 import com.example.todoapp.addtask.domain.GetTasksUseCase
 import com.example.todoapp.addtask.ui.TasksUiState.*
 import com.example.todoapp.addtask.ui.model.TaskModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TasksViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
     getTasksUseCase: GetTasksUseCase
@@ -30,21 +31,17 @@ class TasksViewModel @Inject constructor(
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
 
-    private val _tasks = mutableStateListOf<TaskModel>()
-    val tasks: List<TaskModel> = _tasks
+//    private val _tasks = mutableStateListOf<TaskModel>()
+//    val tasks: List<TaskModel> = _tasks
 
     fun onDialogClose() {
         _showDialog.value = false
     }
 
     fun onTaskCreated(task: String) {
-        val myTask = TaskModel(task = task)
         _showDialog.value = false
-        _tasks.add(myTask)
-
-
         viewModelScope.launch {
-            addTaskUseCase(myTask)
+            addTaskUseCase(TaskModel(task = task))
         }
     }
 
@@ -53,14 +50,16 @@ class TasksViewModel @Inject constructor(
     }
 
     fun onCheckBoxSelected(task: TaskModel) {
-        val index = _tasks.indexOf(task)
-        _tasks[index] = _tasks[index].let {
-            it.copy(selected = !it.selected)
-        }
+        //Actualizar check
+//        val index = _tasks.indexOf(task)
+//        _tasks[index] = _tasks[index].let {
+//            it.copy(selected = !it.selected)
+//        }
     }
 
     fun onItemRemove(taskModel: TaskModel) {
-        val task = _tasks.find { it.id == taskModel.id }
-        _tasks.remove(task)
+        //Borrar item
+//        val task = _tasks.find { it.id == taskModel.id }
+//        _tasks.remove(task)
     }
 }
